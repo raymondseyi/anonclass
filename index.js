@@ -1,14 +1,17 @@
+// Imports
 const express = require("express");
+const mongoose = require("mongoose")
+const cors = require("cors");
+const ProductModel = require("./models/product.model")
+const ProductRouter = require("./routes/product.route")
 const app = express();
 const PORT = 5002
-const mongoose = require("mongoose")
-app.use(express.urlencoded({extended:true}))
-// bodyParser
-// Connect to MongoDB
-// URI - Uniform Resource Identifier
-// CRUD - CREATE, READ, UPDATE, DELETE
 require("dotenv").config()
-const ProductModel = require("./models/product.model")
+// Middleware
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+app.use(cors())
+app.use("/product",ProductRouter)
 const URI = process.env.MONGO_DB_URI
 mongoose.connect(URI)
 .then(()=>{
@@ -16,24 +19,6 @@ mongoose.connect(URI)
 })
 .catch((err)=>{
     console.log("an err occured",err)
-})
-
-app.post("/createproduct",(req,res)=>{
-    console.log(req.body)
-    let form = new ProductModel(req.body)
-    form.save()
-    .then(()=>{
-        console.log("saved successfully")
-    })
-    .catch((err)=>{
-        console.log("e no gree save",err)
-    })
-})
-app.get("/allproducts",(req,res)=>{
-    ProductModel.find()
-    .then((products)=>{
-        console.log(products)
-    })
 })
 
 app.listen(PORT,(err)=>{
