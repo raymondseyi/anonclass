@@ -23,7 +23,7 @@ mongoose.connect(URI)
 
 app.listen(PORT,(err)=>{
     if(err){
-        console.log("Node no gree start")
+        console.log("Node no gree startt")
     }else{
         console.log("Node iyfa start")
     }
